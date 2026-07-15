@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Егор Абрамов — Бизнес под ключ с нуля</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231a3b7a'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3EИС%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f4f8ff; color: #0b1a33; overflow-x: hidden; }
+    h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+    ::selection { background: #1a4b9e; color: #fff; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } * { animation:none!important; } }
+
+    /* header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 0; transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    header.scrolled { padding: 14px 0; background: rgba(244,248,255,0.85); backdrop-filter: blur(14px); box-shadow: 0 8px 30px -12px rgba(10,22,40,0.15); }
+    nav { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 700; font-size: 19px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+    .logo-mark { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #1a4b9e, #4287e0); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px; font-weight: 700; box-shadow: 0 6px 16px -4px rgba(26,75,158,0.6); }
+    .nav-links { display: flex; gap: 36px; font-size: 14.5px; font-weight: 500; color: #4a5d7a; }
+    .nav-links a { position: relative; padding: 4px 0; transition: color 0.25s; }
+    .nav-links a:hover { color: #0b1a33; }
+    .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1.5px; background: #1a4b9e; transition: width 0.3s ease; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { padding: 10px 22px; border-radius: 100px; background: #0b1a33; color: #fff; font-size: 14px; font-weight: 600; transition: transform 0.25s, box-shadow 0.25s, background 0.25s; }
+    .nav-cta:hover { transform: translateY(-2px); background: #1a4b9e; box-shadow: 0 10px 30px -12px rgba(26,75,158,0.5); }
+    .burger { display: none; }
+
+    /* hero */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      background: radial-gradient(120% 100% at 100% 0%, #0b2a5e 0%, #051020 55%, #030a18 100%);
+      color: #fff; padding-top: 110px; overflow: hidden;
+    }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(circle at 75% 30%, black 0%, transparent 70%); }
+    .hero-glow { position: absolute; width: 640px; height: 640px; border-radius: 50%; background: radial-gradient(circle, rgba(66,135,224,0.35), transparent 70%); top: -180px; right: -160px; filter: blur(10px); animation: float 9s ease-in-out infinite; }
+    .hero-glow2 { position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(26,75,158,0.30), transparent 70%); bottom: -140px; left: -100px; animation: float 11s ease-in-out infinite reverse; }
+    @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-24px,28px); } }
+    .hero-noise { position: absolute; inset: 0; opacity: 0.3; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); }
+    .hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #7bb3f0; padding: 8px 16px; border: 1px solid rgba(123,179,240,0.3); border-radius: 100px; background: rgba(26,75,158,0.15); margin-bottom: 26px; }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: #7bb3f0; box-shadow: 0 0 10px 2px rgba(123,179,240,0.6); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    .hero h1 { font-size: clamp(38px,5vw,64px); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 24px; }
+    .hero h1 .accent { background: linear-gradient(100deg, #7bb3f0, #1a4b9e 70%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.lead { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 520px; margin-bottom: 38px; }
+    .hero-actions { display: flex; gap: 16px; align-items: center; margin-bottom: 56px; }
+    .btn-primary { padding: 15px 30px; border-radius: 100px; background: linear-gradient(100deg, #1a4b9e, #4287e0); color: #fff; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease; box-shadow: 0 10px 30px -8px rgba(26,75,158,0.7); }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 40px -8px rgba(66,135,224,0.6); }
+    .btn-primary svg { transition: transform 0.3s ease; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+    .btn-ghost { padding: 15px 26px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; font-size: 15px; transition: background 0.3s, border-color 0.3s; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+    .hero-stats { display: flex; gap: 40px; }
+    .hero-stat b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700; background: linear-gradient(100deg, #fff, #7bb3f0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-stat span { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .hero-visual { position: relative; height: 520px; }
+    .float-card { position: absolute; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 18px; backdrop-filter: blur(16px); padding: 20px; color: #fff; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5); }
+    .card-main { width: 100%; height: 380px; top: 40px; left: 0; background: linear-gradient(155deg, rgba(26,75,158,0.4), rgba(8,18,38,0.6)); display: flex; flex-direction: column; justify-content: space-between; animation: floatCard 6s ease-in-out infinite; }
+    @keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .card-main .cm-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-main .tag { font-size: 12px; padding: 6px 12px; border-radius: 100px; background: rgba(123,179,240,0.15); color: #7bb3f0; font-weight: 600; }
+    .card-main h4 { font-size: 20px; margin-top: 14px; font-weight: 600; }
+    .progress-ring { width: 52px; height: 52px; }
+    .card-mini { width: 220px; padding: 16px; top: 170px; right: 210px; animation: floatCard 7s ease-in-out infinite 1s; }
+    .card-mini .mini-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .mini-icon { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #1a4b9e, #4287e0); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .card-mini h5 { font-size: 13.5px; font-weight: 600; }
+    .card-mini p { font-size: 11.5px; color: rgba(255,255,255,0.55); }
+    .card-badge { bottom: 20px; left: 0px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; animation: floatCard 8s ease-in-out infinite 0.5s; border-color: rgba(123,179,240,0.25)!important; }
+    .card-badge .num { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; background: linear-gradient(100deg, #7bb3f0, #b5d6ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .card-badge .lbl { font-size: 11.5px; color: rgba(255,255,255,0.6); line-height: 1.3; }
+    .scroll-cue { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; z-index: 2; }
+    .scroll-cue .line { width: 1px; height: 34px; background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent); animation: scrollLine 2s infinite; }
+    @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+    /* ===== 2-й БЛОК: ГАЛЕРЕЯ ===== */
+    .gallery-section {
+      background: #0b1a33;
+      padding: 80px 0 60px;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-section .section-tag { color: #7bb3f0; }
+    .gallery-section .section-tag::before { background: #7bb3f0; }
+    .gallery-section .section-head h2 { color: #fff; }
+    .gallery-section .section-head p { color: rgba(255,255,255,0.55); }
+    .gallery-track { display: flex; gap: 16px; margin-top: 40px; will-change: transform; }
+    .gallery-track img { width: 320px; height: 200px; border-radius: 16px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .gallery-track img:hover { transform: scale(1.03); box-shadow: 0 12px 40px -12px rgba(123,179,240,0.3); }
+    .gallery-track-row { margin-bottom: 16px; }
+
+    /* sections */
+    section { padding: 130px 0; }
+    .section-head { max-width: 640px; margin-bottom: 70px; }
+    .section-tag { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1a4b9e; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .section-tag::before { content: ''; width: 24px; height: 2px; background: #1a4b9e; }
+    .section-head h2 { font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: #0b1a33; }
+    .section-head p { font-size: 16px; color: #4a5d7a; margin-top: 18px; line-height: 1.6; }
+
+    /* about */
+    .about { background: #ffffff; }
+    .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 70px; align-items: start; }
+    .about-photo { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/5; background: linear-gradient(155deg, #0b1a33, #0b2a5e); display: flex; align-items: center; justify-content: center; }
+    .about-photo .initials { font-family: 'Space Grotesk', sans-serif; font-size: 120px; font-weight: 700; color: rgba(255,255,255,0.10); }
+    .about-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,18,38,0.6), transparent 50%); }
+    .about-photo-tag { position: absolute; bottom: 22px; left: 22px; color: #fff; z-index: 2; }
+    .about-photo-tag .role { font-size: 13px; color: #7bb3f0; font-weight: 600; margin-bottom: 4px; }
+    .about-photo-tag .name { font-size: 22px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    .about-text p { font-size: 16.5px; line-height: 1.75; color: #4a5d7a; margin-bottom: 20px; }
+    .about-text p strong { color: #0b1a33; }
+    .owns-list { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+    .owns-item { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(26,75,158,0.14); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+    .owns-item:hover { transform: translateX(6px); box-shadow: 0 12px 30px -14px rgba(26,75,158,0.3); border-color: rgba(26,75,158,0.35); }
+    .owns-icon { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; background: linear-gradient(135deg, #1a4b9e, #4287e0); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: 700; }
+    .owns-item h4 { font-size: 15.5px; font-weight: 600; margin-bottom: 2px; }
+    .owns-item span { font-size: 13.5px; color: #4a5d7a; }
+
+    /* process */
+    .process {
+      background: linear-gradient(180deg, #051020, #0b1a33 60%, #051020);
+      color: #fff; position: relative; overflow: hidden;
+    }
+    .process .section-tag { color: #7bb3f0; }
+    .process .section-tag::before { background: #7bb3f0; }
+    .process .section-head h2 { color: #fff; }
+    .process .section-head p { color: rgba(255,255,255,0.55); }
+    .timeline { position: relative; padding-top: 20px; }
+    .timeline-line { position: absolute; top: 38px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
+    .timeline-line-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, #1a4b9e, #7bb3f0); transition: width 1.4s cubic-bezier(0.16,1,0.3,1); }
+    .timeline-steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; position: relative; }
+    .tstep { text-align: left; }
+    .tstep .tnum { width: 76px; height: 76px; border-radius: 50%; background: #0b1a33; border: 2px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 22px; position: relative; z-index: 2; transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s ease; }
+    .tstep.in .tnum { border-color: #7bb3f0; background: linear-gradient(135deg, #1a4b9e, #0b1a33); transform: scale(1.05); }
+    .tstep h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .tstep p { font-size: 13.5px; color: rgba(255,255,255,0.5); line-height: 1.55; }
+
+    /* ===== 5-й БЛОК: ПОРТФОЛИО (projects-section) ===== */
+    .projects-section {
+      background: #0b1a33;
+      padding: 80px 0 100px;
+      position: relative;
+      z-index: 10;
+    }
+    .projects-section .section-tag { color: #7bb3f0; }
+    .projects-section .section-tag::before { background: #7bb3f0; }
+    .projects-section .section-head h2 { color: #fff; }
+    .projects-section .section-head p { color: rgba(255,255,255,0.55); }
+    .project-stack { position: relative; margin-top: 60px; }
+    .project-card {
+      position: sticky;
+      top: 100px;
+      background: #0b1a33;
+      border: 2px solid rgba(255,255,255,0.15);
+      padding: 30px 35px;
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+    .project-card:last-child { margin-bottom: 0; }
+    .project-card-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+    .project-card-top .left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .project-number { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 56px); font-weight: 700; color: rgba(255,255,255,0.2); }
+    .project-category { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); padding: 4px 14px; border-radius: 100px; }
+    .project-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 2vw, 26px); font-weight: 600; color: #fff; }
+    .project-btn { padding: 10px 28px; border-radius: 100px; border: 2px solid rgba(255,255,255,0.2); background: transparent; color: #fff; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; transition: background 0.3s ease, border-color 0.3s ease; cursor: pointer; }
+    .project-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+    .project-grid { display: flex; gap: 16px; }
+    .project-grid .col { display: flex; flex-direction: column; gap: 16px; }
+    .project-grid .col:first-child { width: 40%; }
+    .project-grid .col:last-child { width: 60%; }
+    .project-grid .col img { width: 100%; object-fit: cover; border: 1px solid rgba(255,255,255,0.06); }
+    .project-grid .col:first-child img:first-child { height: clamp(130px, 16vw, 230px); }
+    .project-grid .col:first-child img:last-child { height: clamp(160px, 22vw, 340px); }
+    .project-grid .col:last-child img { height: 100%; min-height: 300px; }
+
+    /* services */
+    .services { background: #fff; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(26,75,158,0.14); border: 1px solid rgba(26,75,158,0.14); border-radius: 20px; overflow: hidden; }
+    .service-card { background: #fff; padding: 38px 30px; transition: background 0.35s ease; position: relative; }
+    .service-card:hover { background: #f4f8ff; }
+    .service-icon { width: 50px; height: 50px; border-radius: 13px; margin-bottom: 22px; background: #f4f8ff; border: 1px solid rgba(26,75,158,0.14); display: flex; align-items: center; justify-content: center; font-size: 22px; transition: background 0.35s, transform 0.35s; }
+    .service-card:hover .service-icon { background: linear-gradient(135deg, #1a4b9e, #4287e0); transform: rotate(-8deg) scale(1.08); color: #fff; }
+    .service-card h4 { font-size: 17.5px; font-weight: 600; margin-bottom: 10px; }
+    .service-card p { font-size: 14px; color: #4a5d7a; line-height: 1.6; }
+
+    /* hustlify */
+    .hustlify { background: #f4f8ff; }
+    .hustlify-card { position: relative; overflow: hidden; border-radius: 28px; background: linear-gradient(120deg, #0b1a33 0%, #1a3b6e 45%, #2b5a9e 100%); padding: 64px 60px; color: #fff; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; box-shadow: 0 40px 90px -30px rgba(26,75,158,0.55); }
+    .hustlify-glow { position: absolute; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, rgba(123,179,240,0.35), transparent 70%); top: -160px; right: -100px; filter: blur(4px); animation: float 10s ease-in-out infinite; }
+    .hustlify-glow2 { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(66,135,224,0.30), transparent 70%); bottom: -140px; left: 10%; animation: float 13s ease-in-out infinite reverse; }
+    .hustlify-mark { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 15px; margin-bottom: 24px; background: linear-gradient(135deg, #7bb3f0, #4287e0); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; box-shadow: 0 10px 26px -6px rgba(66,135,224,0.7); position: relative; z-index: 2; }
+    .hustlify-card h3 { position: relative; z-index: 2; font-size: clamp(26px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 18px; }
+    .hustlify-card h3 .accent2 { background: linear-gradient(100deg, #b5d6ff, #7bb3f0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hustlify-card p { position: relative; z-index: 2; font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 480px; margin-bottom: 30px; }
+    .hustlify-tags { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 34px; }
+    .hustlify-tags span { font-size: 12.5px; font-weight: 600; padding: 7px 14px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.05); }
+    .btn-hustlify { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 100px; background: #ffffff; color: #0b1a33; font-weight: 700; font-size: 15px; box-shadow: 0 10px 30px -8px rgba(26,75,158,0.4); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease; }
+    .btn-hustlify:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 20px 46px -10px rgba(26,75,158,0.5); }
+    .btn-hustlify svg { transition: transform 0.3s ease; }
+    .btn-hustlify:hover svg { transform: translateX(4px) rotate(-45deg); }
+    .hustlify-visual { position: relative; z-index: 2; height: 280px; border-radius: 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(16px); padding: 26px; display: flex; flex-direction: column; justify-content: space-between; }
+    .hustlify-visual .hv-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .hustlify-visual .hv-tag { font-size: 11.5px; padding: 5px 12px; border-radius: 100px; background: rgba(123,179,240,0.18); color: #b5d6ff; font-weight: 600; }
+    .hustlify-metric { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+    .hustlify-metric b { font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; color: #fff; }
+    .hustlify-metric span { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+    .hustlify-bars { display: flex; align-items: flex-end; gap: 8px; height: 70px; }
+    .hustlify-bars i { flex: 1; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #7bb3f0, #1a4b9e); opacity: 0.85; }
+
+    /* stats */
+    .stats-band { background: linear-gradient(100deg, #0b1a33, #1a3b6e); padding: 70px 0; }
+    .stats-row { display: flex; justify-content: space-between; color: #fff; text-align: center; }
+    .stat-item b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; background: linear-gradient(100deg, #fff, #7bb3f0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat-item span { font-size: 13.5px; color: rgba(255,255,255,0.55); letter-spacing: 0.02em; }
+
+    /* testimonials */
+    .testimonials { background: #f4f8ff; }
+    .t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .t-card { background: #fff; border: 1px solid rgba(26,75,158,0.14); border-radius: 18px; padding: 30px; transition: transform 0.35s ease, box-shadow 0.35s ease; }
+    .t-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -24px rgba(10,22,40,0.2); }
+    .t-quote { font-size: 28px; color: #1a4b9e; font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px; }
+    .t-card p { font-size: 14.5px; line-height: 1.65; color: #0b1a33; margin-bottom: 22px; }
+    .t-person { display: flex; align-items: center; gap: 12px; }
+    .t-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #1a4b9e, #4287e0); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; }
+    .t-person h5 { font-size: 14px; font-weight: 600; }
+    .t-person span { font-size: 12.5px; color: #4a5d7a; }
+
+    /* contact */
+    .contact {
+      background: radial-gradient(120% 100% at 0% 0%, #0b2a5e 0%, #051020 55%, #030a18 100%);
+      color: #fff; position: relative; overflow: hidden;
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .contact-left .section-tag { color: #7bb3f0; }
+    .contact-left .section-tag::before { background: #7bb3f0; }
+    .contact-left h2 { font-size: clamp(30px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 20px; }
+    .contact-left p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.65; margin-bottom: 34px; max-width: 460px; }
+    .contact-info { display: flex; flex-direction: column; gap: 18px; }
+    .contact-info a { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 500; transition: gap 0.25s; }
+    .contact-info a:hover { gap: 18px; color: #7bb3f0; }
+    .ci-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .contact-form { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 36px; backdrop-filter: blur(16px); }
+    .form-row { margin-bottom: 18px; }
+    .form-row label { display: block; font-size: 12.5px; color: rgba(255,255,255,0.5); margin-bottom: 8px; letter-spacing: 0.03em; text-transform: uppercase; }
+    .form-row input, .form-row textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 13px 15px; color: #fff; font-family: 'Inter', sans-serif; font-size: 14.5px; transition: border-color 0.3s, background 0.3s; }
+    .form-row input:focus, .form-row textarea:focus { outline: none; border-color: #7bb3f0; background: rgba(255,255,255,0.09); }
+    .form-row input::placeholder, .form-row textarea::placeholder { color: rgba(255,255,255,0.32); }
+    .form-submit { width: 100%; padding: 15px; border-radius: 10px; margin-top: 8px; background: linear-gradient(100deg, #1a4b9e, #4287e0); color: #fff; font-weight: 600; font-size: 15px; transition: transform 0.3s, box-shadow 0.3s; border: none; cursor: pointer; }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(66,135,224,0.6); }
+
+    /* footer */
+    footer { background: #051020; color: rgba(255,255,255,0.45); padding: 34px 0; }
+    .footer-row { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
+    .footer-row .flinks { display: flex; gap: 26px; }
+    .footer-row a:hover { color: #fff; }
+
+    /* responsive */
+    @media (max-width: 980px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .t-grid { grid-template-columns: 1fr; }
+      .timeline-steps { grid-template-columns: repeat(3, 1fr); row-gap: 36px; }
+      .timeline-line { display: none; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .stats-row { flex-wrap: wrap; gap: 30px; }
+      .nav-links { display: none; }
+      .gallery-track img { width: 220px; height: 140px; }
+      .project-grid { flex-direction: column; }
+      .project-grid .col:first-child, .project-grid .col:last-child { width: 100%; }
+      .project-grid .col:first-child { flex-direction: row; }
+      .project-grid .col:first-child img { height: 160px !important; width: 50%; }
+      .project-grid .col:last-child img { min-height: 200px; }
+      .project-card-top .left { gap: 12px; }
+      .project-card { padding: 20px; }
+      .project-card-top { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .timeline-steps { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 90px 0; }
+      .hero { padding-top: 130px; }
+      .hero-actions { flex-wrap: wrap; }
+      .container { padding: 0 20px; }
+      .gallery-track img { width: 160px; height: 100px; }
+      .project-grid .col:first-child { flex-direction: column; }
+      .project-grid .col:first-child img { width: 100%; height: 160px !important; }
+      .project-grid .col:last-child img { min-height: 180px; }
+      .project-card { padding: 16px; }
+      .projects-section { padding: 60px 0 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="header">
+  <div class="container">
+    <nav>
+      <a href="#top" class="logo">
+        <img src="logo.png" alt="Егор Абрамов" style="height: 40px; width: auto; border-radius: 10px; display: block; flex-shrink: 0;">
+        <span>Егор Абрамов</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">Обо мне</a></li>
+        <li><a href="#gallery">Галерея</a></li>
+        <li><a href="#projects">Портфолио</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#hustlify">Hustlify</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Обсудить проект</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-noise"></div>
+  <div class="container hero-inner">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Открыто для новых проектов</div>
+      <h1>Запускаю бизнес <span class="accent">с нуля и под ключ</span> — от идеи до первой прибыли</h1>
+      <p class="lead">Давайте превратим вашу сырую идею в целый бизнес</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Запросить консультацию
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#projects" class="btn-ghost">Смотреть проекты</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b class="counter" data-target="57">0</b><span>бизнесов запущено</span></div>
+        <div class="hero-stat"><b class="counter" data-target="3">0</b><span>года в предпринимательстве</span></div>
+        <div class="hero-stat"><b class="counter" data-target="12">0</b><span>отраслей</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="float-card card-main">
+        <div class="cm-top">
+          <div><span class="tag">В работе</span><h4>Сервис для пополнений steam/apple «NeverMore»</h4></div>
+          <svg class="progress-ring" viewBox="0 0 36 36">
+            <path stroke="rgba(255,255,255,0.15)" stroke-width="3" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 1 1 0-32"/>
+            <path stroke="#7bb3f0" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="72,100" d="M18 2a16 16 0 1 1 0 32 16 16 0 1 1 0-32"/>
+          </svg>
+        </div>
+        <div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:14px;">Анализ → Упаковка → Разработка → Запуск</p>
+          <div style="height:1px;background:rgba(255,255,255,0.12);"></div>
+        </div>
+      </div>
+      <div class="float-card card-mini">
+        <div class="mini-row">
+          <div class="mini-icon">✓</div>
+          <div><h5>ЦА определена</h5><p>Мы знаем, где они "обитают"</p></div>
+        </div>
+        <div class="mini-row" style="margin-bottom:0;">
+          <div class="mini-icon">₽</div>
+          <div><h5>Эквайринг</h5><p>Успешно подключен, готов к операциям</p></div>
+        </div>
+      </div>
+      <div class="float-card card-badge">
+        <span class="num">72%</span>
+        <span class="lbl">проектов выходят<br>на прибыль в 1-й год</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Листайте</span><div class="line"></div></div>
+</section>
+
+<!-- 2. ГАЛЕРЕЯ -->
+<section class="gallery-section" id="gallery">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag reveal">Галерея проектов</div>
+      <h2 class="reveal reveal-delay-1">Визуализация <span style="color: #7bb3f0;">моих работ</span></h2>
+      <p class="reveal reveal-delay-2">Примеры дизайнов и проектов, которые я создал для клиентов</p>
+    </div>
+    
+    <!-- Верхняя строка — замените src на свои фото -->
+    <div class="gallery-track gallery-track-row" id="galleryTrack1">
+      <img src="21.jpg" alt="Проект 1" loading="lazy">
+      <img src="22.jpg" alt="Проект 2" loading="lazy">
+      <img src="23.jpg" alt="Проект 3" loading="lazy">
+      <img src="24.jpg" alt="Проект 4" loading="lazy">
+      <img src="25.jpg" alt="Проект 5" loading="lazy">
+    </div>
+    
+    <!-- Нижняя строка — замените src на свои фото -->
+    <div class="gallery-track" id="galleryTrack2">
+      <img src="26.jpg" alt="Проект 6" loading="lazy">
+      <img src="27.jpg" alt="Проект 7" loading="lazy">
+      <img src="28.jpg" alt="Проект 10" loading="lazy">
+      <img src="29.jpg" alt="Проект 11" loading="lazy">
+      <img src="30.jpg" alt="Проект 12" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- 3. ABOUT -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="reveal">
+      <div class="about-photo" style="background: linear-gradient(155deg, rgba(11,26,51,0.3), rgba(11,26,51,0.2)), url('abramov.jpg') center/cover no-repeat; position: relative;">
+        <span class="initials" style="display:none;">ИС</span>
+        <div class="about-photo-tag" style="position: absolute; bottom: 22px; left: 22px; color: #fff; z-index: 2;">
+          <div class="role" style="font-size: 13px; color: #7bb3f0; font-weight: 600; margin-bottom: 4px;">Основатель и предприниматель</div>
+          <div class="name" style="font-size: 22px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;">Егор Абрамов</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-tag reveal">Обо мне</div>
+      <h2 class="reveal" style="font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-0.02em;margin-bottom:26px;">Я не консультирую про бизнес — я его строю и запускаю сам</h2>
+      <div class="about-text">
+        <p class="reveal reveal-delay-1">За 3 года я прошёл путь от собственного первого магазина до <strong>крупнейшего сервиса Hustlify</strong> и генерального директора, который берёт идею и доводит её до работающего бизнеса — от брендинга до первых продаж</p>
+      </div>
+      <div class="owns-list">
+        <div class="owns-item reveal reveal-delay-1">
+          <img src="hustlify-logo.jpg" alt="Hustlify" style="width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; object-fit: cover;">
+          <div><h4>Цифровой бутик Hustlify - владелец</h4><span>Сервис по оформлению бизнеса, основан в 2025</span></div>
+        </div>
+        <div class="owns-item reveal reveal-delay-2">
+          <img src="telestore-logo.jpg" alt="TeleStore" style="width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; object-fit: cover;">
+          <div><h4>Сетка цифровых магазинов "TeleStore" — партнер</h4><span>Готовые платформы для продажи, с 2024</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PROCESS -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag reveal">Как я работаю</div>
+      <h2 class="reveal reveal-delay-1">Путь от идеи до открытых дверей — шесть шагов, без хаоса</h2>
+      <p class="reveal reveal-delay-2">Каждый проект проходит один и тот же надёжный маршрут — меняется только содержание.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-line"><div class="timeline-line-fill" id="lineFill"></div></div>
+      <div class="timeline-steps">
+        <div class="tstep"><div class="tnum">01</div><h4>Идея и модель</h4><p>Проверяем гипотезу, считаем экономику, определяем нишу.</p></div>
+        <div class="tstep"><div class="tnum">02</div><h4>Анализ</h4><p>Анализируем нишу, конкурентов</p></div>
+        <div class="tstep"><div class="tnum">03</div><h4>Бренд и упаковка</h4><p>Создаем уникальный дизайн под вашу ЦА</p></div>
+        <div class="tstep"><div class="tnum">04</div><h4>Кодинг</h4><p>Разрабатываем платформу - Сайт/Бот</p></div>
+        <div class="tstep"><div class="tnum">05</div><h4>Запуск</h4><p>Настраиваем продажи, запускаем бизнес</p></div>
+        <div class="tstep"><div class="tnum">06</div><h4>Продвижение</h4><p>Помогаем с закупами рекламы, составляем контент план</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ПОРТФОЛИО -->
+<section class="projects-section" id="projects">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag reveal">Портфолио</div>
+      <h2 class="reveal reveal-delay-1">Проекты, которые <span style="color: #7bb3f0;">я создал</span></h2>
+      <p class="reveal reveal-delay-2">Каждый проект — это уникальная история, воплощённая в жизнь</p>
+    </div>
+
+    <div class="project-stack">
+      <!-- Проект 1 -->
+      <div class="project-card reveal" style="top: 100px;">
+        <div class="project-card-top">
+          <div class="left">
+            <span class="project-number">01</span>
+            <span class="project-category">Client</span>
+            <h3 class="project-title">Sold Out</h3>
+          </div>
+          <button class="project-btn">Live Project</button>
+        </div>
+        <div class="project-grid">
+          <div class="col">
+            <img src="31.jpg" alt="Nextlevel Studio 1" loading="lazy">
+            <img src="32.jpg" alt="Nextlevel Studio 2" loading="lazy">
+          </div>
+          <div class="col">
+            <img src="33.jpg" alt="Nextlevel Studio 3" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Проект 2 -->
+      <div class="project-card reveal reveal-delay-1" style="top: 128px;">
+        <div class="project-card-top">
+          <div class="left">
+            <span class="project-number">02</span>
+            <span class="project-category">Personal</span>
+            <h3 class="project-title">XGEM</h3>
+          </div>
+          <button class="project-btn">Live Project</button>
+        </div>
+        <div class="project-grid">
+          <div class="col">
+            <img src="41.jpg" alt="Aura Brand 1" loading="lazy">
+            <img src="42.jpg" alt="Aura Brand 2" loading="lazy">
+          </div>
+          <div class="col">
+            <img src="43.jpg" alt="Aura Brand 3" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Проект 3 -->
+      <div class="project-card reveal reveal-delay-2" style="top: 156px;">
+        <div class="project-card-top">
+          <div class="left">
+            <span class="project-number">03</span>
+            <span class="project-category">Client</span>
+            <h3 class="project-title">NeverMore</h3>
+          </div>
+          <button class="project-btn">Live Project</button>
+        </div>
+        <div class="project-grid">
+          <div class="col">
+            <img src="51.jpg" alt="Solaris Digital 1" loading="lazy">
+            <img src="52.jpg" alt="Solaris Digital 2" loading="lazy">
+          </div>
+          <div class="col">
+            <img src="53.jpg" alt="Solaris Digital 3" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag reveal">Чем владею и что делаю</div>
+      <h2 class="reveal reveal-delay-1">Экспертиза, которую можно применить к вашему проекту</h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card"><div class="service-icon">📋</div><h4>Выбор ниши</h4><p>Выбираем актуальную нишу под вашу идею</p></div>
+      <div class="service-card"><div class="service-icon">⚖️</div><h4>Анализ конкурентов</h4><p>Смотрим на конкуренцию - делаем лучше</p></div>
+      <div class="service-card"><div class="service-icon">🎯</div><h4>Бренд и позиционирование</h4><p>Название, визуальный стиль, сайт, упаковка продукта.</p></div>
+      <div class="service-card"><div class="service-icon">👥</div><h4>Поиск ЦА</h4><p>Создаем потенциального покупателя, ищем их</p></div>
+      <div class="service-card"><div class="service-icon">📦</div><h4>Поставщики и логистика</h4><p>Поиск и переговоры с поставщиками, настройка цепочки поставок.</p></div>
+      <div class="service-card"><div class="service-icon">🚀</div><h4>Запуск продаж</h4><p>Маркетинг первого месяца, первые клиенты, точка безубыточности.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. HUSTLIFY -->
+<section class="hustlify" id="hustlify">
+  <div class="container">
+    <div class="hustlify-card reveal">
+      <div class="hustlify-glow"></div>
+      <div class="hustlify-glow2"></div>
+      <div>
+        <div class="hustlify-mark">H</div>
+        <h3>Продвижение и оформление бренда — через <span class="accent2">Hustlify</span></h3>
+        <p>Мой сервис, где мы соберем вам любой проект от идеи до монетизации - за неделю!</p>
+        <div class="hustlify-tags">
+          <span>Брендинг</span>
+          <span>Сайты и лендинги</span>
+          <span>SMM и реклама</span>
+          <span>Упаковка продукта</span>
+        </div>
+        <a href="https://hustlify.ru" target="_blank" rel="noopener" class="btn-hustlify">Перейти в Hustlify
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0b1a33" stroke-width="2.6" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+      <div class="hustlify-visual">
+        <div class="hv-top">
+          <span class="hv-tag">Hustlify</span>
+          <div class="hustlify-metric"><b>+32%</b><span>рост охвата</span></div>
+        </div>
+        <div class="hustlify-bars">
+          <i style="height:35%;"></i><i style="height:55%;"></i><i style="height:40%;"></i>
+          <i style="height:70%;"></i><i style="height:60%;"></i><i style="height:90%;"></i><i style="height:78%;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. STATS -->
+<div class="stats-band">
+  <div class="container stats-row">
+    <div class="stat-item reveal"><b class="counter" data-target="57">0</b><span>бизнесов запущено с нуля</span></div>
+    <div class="stat-item reveal reveal-delay-1"><b class="counter" data-target="1">0</b><span>компания в собственности</span></div>
+    <div class="stat-item reveal reveal-delay-2"><b class="counter" data-target="45">0</b><span>дней — средний срок запуска</span></div>
+    <div class="stat-item reveal reveal-delay-3"><b class="counter" data-target="72">0</b><span>% выходят на прибыль за год</span></div>
+  </div>
+</div>
+
+<!-- 9. TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag reveal">Отзывы</div>
+      <h2 class="reveal reveal-delay-1">Что говорят те, чей бизнес я запускал</h2>
+    </div>
+    <div class="t-grid">
+      <div class="t-card reveal">
+        <div class="t-quote">"</div>
+        <p>Пришел с идеей на салфетке — через 40 дней открыл первую точку с командой и поставщиками. Егор снял с меня всю бюрократию.</p>
+        <div class="t-person"><div class="t-avatar">МК</div><div><h5>Владимир Пущин</h5><span>Основатель «Свежо»</span></div></div>
+      </div>
+      <div class="t-card reveal reveal-delay-1">
+        <div class="t-quote">"</div>
+        <p>Логистика, оформление, продвижене — всё, в чём я не разбирался, взял на себя Егор. Я просто вышел на открытие готового бизнеса.</p>
+        <div class="t-person"><div class="t-avatar">ДП</div><div><h5>Денис Панов</h5><span>Совладелец «XGEM»</span></div></div>
+      </div>
+      <div class="t-card reveal reveal-delay-2">
+        <div class="t-quote">"</div>
+        <p>Ценю системный подход: каждый этап был расписан, сроки соблюдались, а результат — реально работающий магазин.</p>
+        <div class="t-person"><div class="t-avatar">АЛ</div><div><h5>Георгий Савельев</h5><span>Владелец «CashFlow»</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. CONTACT -->
+<section class="contact" id="contact">
+  <div class="hero-glow" style="opacity:0.6;"></div>
+  <div class="container contact-grid">
+    <div class="contact-left">
+      <div class="section-tag reveal">Контакты</div>
+      <h2 class="reveal reveal-delay-1">Готовы обсудить запуск вашего бизнеса?</h2>
+      <p class="reveal reveal-delay-2">Расскажите об идее — отвечу в течение дня и предложу маршрут запуска под вашу отрасль и бюджет.</p>
+      <div class="contact-info reveal reveal-delay-3">
+        <a href="mailto:hello@sokolov-business.ru"><span class="ci-icon">✉️</span> hustlify@mail.ru</a>
+        <a href="tel:+70000000000"><span class="ci-icon">📞</span> +7 (979) 077-62-61</a>
+        <a href="#"><span class="ci-icon">📍</span> Москва, работаю по всей России</a>
+      </div>
+    </div>
+    <form class="contact-form reveal reveal-delay-2" id="tgForm">
+      <div class="form-row"><label>Имя</label><input type="text" id="tgName" placeholder="Как к вам обращаться" required></div>
+      <div class="form-row"><label>Контакт</label><input type="text" id="tgContact" placeholder="Телефон или @username" required></div>
+      <div class="form-row"><label>О проекте</label><textarea id="tgMessage" rows="4" placeholder="Пара слов о вашей идее"></textarea></div>
+      <button class="form-submit" type="submit">Отправить заявку</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-row">
+    <span>© 2026 Егор Абрамов. Бизнес под ключ с нуля.</span>
+    <div class="flinks">
+      <a href="#top">Наверх</a>
+      <a href="#projects">Портфолио</a>
+      <a href="#hustlify">Hustlify</a>
+      <a href="#contact">Связаться</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header on scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // counters
+  const counters = document.querySelectorAll('.counter');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        let cur = 0;
+        const step = Math.max(1, Math.ceil(target / 40));
+        const tick = () => {
+          cur += step;
+          if (cur >= target) { el.textContent = target; return; }
+          el.textContent = cur;
+          requestAnimationFrame(tick);
+        };
+        tick();
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterIO.observe(c));
+
+  // timeline steps + line fill
+  const tsteps = document.querySelectorAll('.tstep');
+  const lineFill = document.getElementById('lineFill');
+  const timelineIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        lineFill.style.width = '100%';
+        tsteps.forEach((step, i) => {
+          setTimeout(() => step.classList.add('in'), i * 160);
+        });
+        timelineIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const timelineSection = document.querySelector('.timeline');
+  if (timelineSection) timelineIO.observe(timelineSection);
+
+  // smooth nav offset
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e){
+      const id = this.getAttribute('href');
+      if (id.length > 1) {
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          const offset = 90;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  // gallery parallax
+  const track1 = document.getElementById('galleryTrack1');
+  const track2 = document.getElementById('galleryTrack2');
+  const gallerySection = document.querySelector('.gallery-section');
+
+  if (track1 && track2 && gallerySection) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rect = gallerySection.getBoundingClientRect();
+          const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+          const offset = Math.max(0, Math.min(1, scrollProgress)) * 200 - 100;
+          track1.style.transform = `translateX(${offset}px)`;
+          track2.style.transform = `translateX(${-offset}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // отправка заявки — через собственный сервер (/api/lead), токен бота нигде в браузере не хранится
+  document.getElementById('tgForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('tgName').value.trim();
+    const contact = document.getElementById('tgContact').value.trim();
+    const message = document.getElementById('tgMessage').value.trim();
+    const btn = this.querySelector('.form-submit');
+    const form = this;
+
+    if (!name || !contact) {
+      btn.textContent = '❌ Заполните имя и контакт';
+      btn.style.background = '#c0392b';
+      setTimeout(() => {
+        btn.textContent = 'Отправить заявку';
+        btn.style.background = '';
+      }, 3000);
+      return;
+    }
+
+    btn.textContent = '⏳ Отправка...';
+    btn.disabled = true;
+
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, contact, message })
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (!data.ok) throw new Error(data.error || 'error');
+        btn.textContent = '✅ Заявка отправлена!';
+        btn.style.background = '#27ae60';
+        form.reset();
+      })
+      .catch(() => {
+        btn.textContent = '❌ Ошибка, попробуйте позже';
+        btn.style.background = '#c0392b';
+      })
+      .finally(() => {
+        setTimeout(() => {
+          btn.textContent = 'Отправить заявку';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      });
+  });
+</script>
+</body>
+</html>

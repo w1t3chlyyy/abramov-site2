@@ -1,0 +1,15 @@
+{
+  "name": "sokolov-business-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Сайт-визитка с формой заявки, пересылающей сообщения в Telegram-бота через серверный эндпоинт",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -206,7 +206,8 @@
     .hustlify-card { position: relative; overflow: hidden; border-radius: 28px; background: linear-gradient(120deg, #0b1a33 0%, #1a3b6e 45%, #2b5a9e 100%); padding: 64px 60px; color: #fff; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; box-shadow: 0 40px 90px -30px rgba(26,75,158,0.55); }
     .hustlify-glow { position: absolute; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, rgba(123,179,240,0.35), transparent 70%); top: -160px; right: -100px; filter: blur(4px); animation: float 10s ease-in-out infinite; }
     .hustlify-glow2 { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(66,135,224,0.30), transparent 70%); bottom: -140px; left: 10%; animation: float 13s ease-in-out infinite reverse; }
-    .hustlify-mark { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 15px; margin-bottom: 24px; background: linear-gradient(135deg, #7bb3f0, #4287e0); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; box-shadow: 0 10px 26px -6px rgba(66,135,224,0.7); position: relative; z-index: 2; }
+    .hustlify-mark { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 15px; margin-bottom: 24px; background: linear-gradient(135deg, #7bb3f0, #4287e0); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; box-shadow: 0 10px 26px -6px rgba(66,135,224,0.7); position: relative; z-index: 2; overflow: hidden; padding: 0; }
+    .hustlify-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hustlify-card h3 { position: relative; z-index: 2; font-size: clamp(26px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 18px; }
     .hustlify-card h3 .accent2 { background: linear-gradient(100deg, #b5d6ff, #7bb3f0); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .hustlify-card p { position: relative; z-index: 2; font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 480px; margin-bottom: 30px; }
@@ -216,7 +217,7 @@
     .btn-hustlify:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 20px 46px -10px rgba(26,75,158,0.5); }
     .btn-hustlify svg { transition: transform 0.3s ease; }
     .btn-hustlify:hover svg { transform: translateX(4px) rotate(-45deg); }
-    .hustlify-visual { position: relative; z-index: 2; height: 280px; border-radius: 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(16px); padding: 26px; display: flex; flex-direction: column; justify-content: space-between; }
+    .hustlify-visual { position: relative; z-index: 2; height: 280px; border-radius: 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(16px); padding: 26px; display: flex; flex-direction: column; justify-content: space-between; max-width: 100%; }
     .hustlify-visual .hv-top { display: flex; justify-content: space-between; align-items: flex-start; }
     .hustlify-visual .hv-tag { font-size: 11.5px; padding: 5px 12px; border-radius: 100px; background: rgba(123,179,240,0.18); color: #b5d6ff; font-weight: 600; }
     .hustlify-metric { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
@@ -224,6 +225,39 @@
     .hustlify-metric span { font-size: 12.5px; color: rgba(255,255,255,0.5); }
     .hustlify-bars { display: flex; align-items: flex-end; gap: 8px; height: 70px; }
     .hustlify-bars i { flex: 1; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #7bb3f0, #1a4b9e); opacity: 0.85; }
+
+    /* ===== АДАПТИВ HUSTLIFY ===== */
+    @media (max-width: 900px) {
+      .hustlify-card {
+        grid-template-columns: 1fr;
+        padding: 44px 32px;
+        gap: 36px;
+      }
+      .hustlify-visual { height: 220px; }
+    }
+
+    @media (max-width: 600px) {
+      .hustlify-card {
+        padding: 32px 22px;
+        border-radius: 22px;
+      }
+      .hustlify-glow { width: 300px; height: 300px; top: -120px; right: -120px; }
+      .hustlify-glow2 { width: 220px; height: 220px; bottom: -100px; }
+
+      .hustlify-mark { width: 44px; height: 44px; border-radius: 12px; margin-bottom: 18px; }
+
+      .hustlify-card h3 { font-size: 22px; margin-bottom: 14px; }
+      .hustlify-card p { font-size: 14.5px; margin-bottom: 24px; }
+
+      .hustlify-tags { gap: 8px; margin-bottom: 26px; }
+      .hustlify-tags span { font-size: 12px; padding: 6px 12px; }
+
+      .btn-hustlify { width: 100%; justify-content: center; padding: 14px 20px; font-size: 14px; }
+
+      .hustlify-visual { height: auto; min-height: 180px; padding: 20px; gap: 20px; }
+      .hustlify-metric b { font-size: 26px; }
+      .hustlify-bars { height: 56px; }
+    }
 
     /* stats */
     .stats-band { background: linear-gradient(100deg, #0b1a33, #1a3b6e); padding: 70px 0; }
@@ -396,7 +430,7 @@
       <h2 class="reveal reveal-delay-1">Визуализация <span style="color: #7bb3f0;">моих работ</span></h2>
       <p class="reveal reveal-delay-2">Примеры дизайнов и проектов, которые я создал для клиентов</p>
     </div>
-    
+
     <!-- Верхняя строка — замените src на свои фото -->
     <div class="gallery-track gallery-track-row" id="galleryTrack1">
       <img src="21.jpg" alt="Проект 1" loading="lazy">
@@ -405,7 +439,7 @@
       <img src="24.jpg" alt="Проект 4" loading="lazy">
       <img src="25.jpg" alt="Проект 5" loading="lazy">
     </div>
-    
+
     <!-- Нижняя строка — замените src на свои фото -->
     <div class="gallery-track" id="galleryTrack2">
       <img src="26.jpg" alt="Проект 6" loading="lazy">
@@ -572,7 +606,9 @@
       <div class="hustlify-glow"></div>
       <div class="hustlify-glow2"></div>
       <div>
-        <div class="hustlify-mark">H</div>
+        <div class="hustlify-mark">
+          <img src="hustlify-logo.jpg" alt="Hustlify">
+        </div>
         <h3>Продвижение и оформление бренда — через <span class="accent2">Hustlify</span></h3>
         <p>Мой сервис, где мы соберем вам любой проект от идеи до монетизации - за неделю!</p>
         <div class="hustlify-tags">

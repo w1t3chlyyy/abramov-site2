@@ -14,26 +14,37 @@ Node.js-сервис: отдаёт статический сайт (`public/inde
 3. Chat ID можно оставить прежний (если это ваш личный чат/группа), либо получить заново,
    написав боту `/start` и открыв `https://api.telegram.org/bot<НОВЫЙ_ТОКЕН>/getUpdates`
 
-## Деплой на Render.com
+## Деплой на Vercel
 
-1. Залейте эту папку в репозиторий на GitHub/GitLab:
-   ```bash
-   git init
-   git add .
-   git commit -m "initial commit"
-   git remote add origin https://github.com/ваш-логин/abramov-site.git
-   git branch -M main
-   git push -u origin main
-   ```
-2. На render.com: **New → Blueprint** → выберите репозиторий
-   (Render прочитает `render.yaml` и создаст веб-сервис `sokolov-business`)
-3. При создании (или потом в **Environment**) укажите переменные:
-   - `TELEGRAM_BOT_TOKEN` — новый токен бота
-   - `TELEGRAM_CHAT_ID` — id чата/группы, куда должны приходить заявки
-4. Нажмите **Apply / Create** — через пару минут сайт будет доступен на
-   `https://sokolov-business.onrender.com`
+Проект использует serverless-функцию `api/lead.js` вместо постоянно работающего
+`server.js` — это стандартная модель Vercel (статика раздаётся напрямую, бэкенд-логика
+живёт в отдельных функциях в папке `api/`).
 
-## Локальный запуск (проверить перед деплоем)
+1. Убедитесь, что в репозитории есть папка `api/` с файлом `lead.js` и файл `vercel.json`
+   в корне (уже добавлены).
+2. Зайдите на [vercel.com](https://vercel.com) → **Add New → Project** → выберите этот
+   репозиторий на GitHub.
+3. Framework Preset можно оставить **Other** — конфиг не нужен, Vercel сам найдёт
+   `public/` (статика) и `api/lead.js` (функция).
+4. В **Environment Variables** перед первым деплоем добавьте:
+   - `TELEGRAM_BOT_TOKEN` — новый токен бота (см. раздел выше про отзыв старого токена)
+   - `TELEGRAM_CHAT_ID` — id чата/группы для заявок
+5. Нажмите **Deploy**. Через минуту сайт будет доступен на `https://<имя-проекта>.vercel.app`.
+
+Если нужно обновить переменные окружения после деплоя — **Project → Settings →
+Environment Variables**, затем **Redeploy** (переменные подхватываются только при новом деплое).
+
+### Чем отличается от Render
+- На Vercel нет постоянного процесса — каждый запрос к `/api/lead` запускает функцию
+  заново, поэтому "засыпания" как на бесплатном Render нет, отклик обычно быстрый.
+- Простая защита от спама по IP (не больше 1 заявки / 5 сек), которая была в
+  `server.js`, в serverless-функции работает не так надёжно — между вызовами нет общей
+  памяти. Для полноценной защиты понадобится внешнее хранилище (например, Vercel KV
+  или Upstash Redis).
+- `server.js` и `render.yaml` можно оставить в репозитории для локального запуска
+  (`node server.js`) или удалить — Vercel их не использует.
+
+## Локальный запуск (через старый server.js, проверить перед деплоем)
 
 ```bash
 npm install
